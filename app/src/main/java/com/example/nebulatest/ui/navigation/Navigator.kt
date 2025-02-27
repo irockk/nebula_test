@@ -5,8 +5,8 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.nebulatest.features.home.HomeRoute
-import com.example.nebulatest.features.transaction.TransactionRoute
+import com.example.nebulatest.ui.screens.home.HomeRoute
+import com.example.nebulatest.ui.screens.transaction.TransactionRoute
 
 @Composable
 fun Navigator(modifier: Modifier = Modifier) {

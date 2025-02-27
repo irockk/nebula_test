@@ -20,6 +20,11 @@ koinAnnotationVersion = "1.3.1"
 
 ksp = "2.0.21-1.0.25"
 
+retrofitVersion = "2.11.0"
+gsonVersion = "2.11.0"
+
+roomVersion = "2.6.1"
+
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -41,15 +46,24 @@ androidx-material3 = { group = "androidx.compose.material3", name = "material3" 
 
 datastoreDependencies-datastore = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastoreVersion" }
 
-koin-core = { group = "io.insert-koin",  name = "koin-core", version.ref = "koinVersion" }
-koin-android = { group = "io.insert-koin",  name = "koin-android", version.ref = "koinVersion" }
-koin-compose = { group = "io.insert-koin",  name = "koin-androidx-compose", version.ref = "koinVersion" }
-koin-annotations = { group = "io.insert-koin",  name = "koin-annotations", version.ref = "koinAnnotationVersion" }
-koin-compiler = { group = "io.insert-koin",  name = "koin-ksp-compiler", version.ref = "koinAnnotationVersion" }
+koin-core = { group = "io.insert-koin", name = "koin-core", version.ref = "koinVersion" }
+koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koinVersion" }
+koin-compose = { group = "io.insert-koin", name = "koin-androidx-compose", version.ref = "koinVersion" }
+koin-annotations = { group = "io.insert-koin", name = "koin-annotations", version.ref = "koinAnnotationVersion" }
+koin-compiler = { group = "io.insert-koin", name = "koin-ksp-compiler", version.ref = "koinAnnotationVersion" }
+
+retrofitDependencies-retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofitVersion" }
+retrofitDependencies-converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofitVersion" }
+gsonDependencies-gson = {group = "com.google.code.gson", name = "gson", version.ref = "gsonVersion"}
+
+roomDependencies-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "roomVersion" }
+roomDependencies-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "roomVersion"}
+roomDependencies-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "roomVersion"}
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+room = { id = "androidx.room", version.ref = "roomVersion" }
 

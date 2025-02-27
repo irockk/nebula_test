@@ -1,4 +1,4 @@
-package com.example.nebulatest.features.home
+package com.example.nebulatest.ui.screens.home
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -18,6 +18,8 @@ fun HomeScreen(
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
         Text(text = "Home")
+
+        Text(text = uiState.exchangeRate.toString())
 
         TextButton(onClick = goToTransaction) {
             Text(text = stringResource(R.string.home_add_transaction_button_text))

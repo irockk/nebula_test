@@ -1,4 +1,4 @@
-package com.example.nebulatest.features
+package com.example.nebulatest
 
 import org.koin.core.annotation.ComponentScan
 import org.koin.core.annotation.Module
