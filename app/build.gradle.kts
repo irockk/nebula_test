@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.room)
 }
 
 android {
@@ -28,6 +29,11 @@ android {
             )
         }
     }
+
+    room {
+        schemaDirectory("$projectDir/schemas")
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
@@ -65,6 +71,10 @@ dependencies {
     implementation(libs.retrofitDependencies.retrofit)
     implementation(libs.retrofitDependencies.converter.gson)
     implementation(libs.gsonDependencies.gson)
+
+    implementation(libs.roomDependencies.runtime)
+    implementation(libs.roomDependencies.ktx)
+    ksp(libs.roomDependencies.compiler)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

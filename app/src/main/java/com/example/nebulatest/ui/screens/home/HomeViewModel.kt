@@ -2,7 +2,7 @@ package com.example.nebulatest.ui.screens.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.nebulatest.features.exchange.rate.data.ExchangeRateRepository
+import com.example.nebulatest.features.exchange.rate.domain.GetExchangeRateUseCase
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -21,7 +21,7 @@ sealed class HomeEvents {
 
 @Factory
 class HomeViewModel(
-    private val exchangeRateRepository: ExchangeRateRepository
+    private val getExchangeRateUseCase: GetExchangeRateUseCase
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(HomeState())
     val uiState = _uiState.asStateFlow()
@@ -35,7 +35,7 @@ class HomeViewModel(
 
     private fun setExchangeRate() {
         viewModelScope.launch {
-            val result = exchangeRateRepository.getExchangeRate()
+            val result = getExchangeRateUseCase.invoke()
             if (result.isSuccess) {
                 _uiState.value = _uiState.value.copy(exchangeRate = result.getOrNull())
             } else {

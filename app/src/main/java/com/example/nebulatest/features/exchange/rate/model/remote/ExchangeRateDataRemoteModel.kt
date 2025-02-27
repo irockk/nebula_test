@@ -1,4 +1,4 @@
-package com.example.nebulatest.features.exchange.rate.model
+package com.example.nebulatest.features.exchange.rate.model.remote
 
 data class ExchangeRateDataRemoteModel(
     val id: String,

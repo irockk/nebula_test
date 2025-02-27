@@ -1,7 +1,11 @@
 package com.example.nebulatest.di
 
-import com.example.nebulatest.features.exchange.rate.data.ExchangeRateRepository
-import com.example.nebulatest.features.exchange.rate.data.ExchangeRateService
+import android.app.Application
+import androidx.room.Room
+import com.example.nebulatest.features.exchange.rate.data.local.ExchangeRateDao
+import com.example.nebulatest.features.exchange.rate.data.local.ExchangeRateDataBase
+import com.example.nebulatest.features.exchange.rate.data.remote.ExchangeRateRemoteRepository
+import com.example.nebulatest.features.exchange.rate.data.remote.ExchangeRateService
 import okhttp3.OkHttpClient
 import org.koin.dsl.module
 import retrofit2.Retrofit
@@ -21,5 +25,17 @@ val networkModule = module {
 
     fun provideNetworkApi(retrofit: Retrofit) = retrofit.create(ExchangeRateService::class.java)
 
-    factory { ExchangeRateRepository(exchangeRateService = provideNetworkApi(provideRetrofit())) }
+    factory { ExchangeRateRemoteRepository(exchangeRateService = provideNetworkApi(provideRetrofit())) }
+}
+
+val dbModule = module {
+    fun provideDataBase(application: Application): ExchangeRateDataBase =
+        Room.databaseBuilder(application, ExchangeRateDataBase::class.java, "exchange_rate")
+            .fallbackToDestructiveMigration()
+            .build()
+
+    fun provideDao(exchangeDataBase: ExchangeRateDataBase): ExchangeRateDao =
+        exchangeDataBase.exchangeRateDao()
+    single { provideDataBase(get()) }
+    single { provideDao(get()) }
 }

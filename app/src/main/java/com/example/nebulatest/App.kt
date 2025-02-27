@@ -1,6 +1,7 @@
 package com.example.nebulatest
 
 import android.app.Application
+import com.example.nebulatest.di.dbModule
 import com.example.nebulatest.di.networkModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -18,7 +19,7 @@ class App : Application() {
         startKoin {
             androidLogger()
             androidContext(applicationContext)
-            modules(AppAnnotationModule().module + networkModule)
+            modules(AppAnnotationModule().module + networkModule + dbModule)
         }
     }
 }
