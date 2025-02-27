@@ -5,7 +5,7 @@ import org.koin.core.annotation.Single
 @Single
 class ExchangeRateRemoteRepository(private val exchangeRateService: ExchangeRateService) {
 
-    suspend fun getExchangeRate(): Result<Pair<String, Long>> {
+    suspend fun getExchangeRate(): Result<Pair<Double, Long>> {
         return try {
             val response = exchangeRateService.getExchangeRate()
             if (response.isSuccessful) {

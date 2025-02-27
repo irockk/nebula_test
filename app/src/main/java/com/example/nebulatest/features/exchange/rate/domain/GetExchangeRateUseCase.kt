@@ -12,10 +12,10 @@ class GetExchangeRateUseCase(
     private val exchangeRateRemoteRepository: ExchangeRateRemoteRepository,
     private val exchangeRateLocalRepository: ExchangeRateLocalRepository
 ) {
-    suspend operator fun invoke(): Result<String> {
+    suspend operator fun invoke(): Result<Double> {
         return withContext(Dispatchers.IO) {
             val latestExchangeRate = exchangeRateLocalRepository.getLatestExchangeRate()
-            if (latestExchangeRate == null || System.currentTimeMillis() > latestExchangeRate.timestamp + 360000) {
+            if (latestExchangeRate == null || System.currentTimeMillis() > latestExchangeRate.timestamp + 3600000) {
                 val newExchangeRateResult = exchangeRateRemoteRepository.getExchangeRate()
                 val newExchangeRate = newExchangeRateResult.getOrNull()
                 if (newExchangeRateResult.isSuccess && newExchangeRate != null) {

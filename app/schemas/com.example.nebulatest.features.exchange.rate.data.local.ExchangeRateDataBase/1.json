@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "104f6251c78ab3c5d13d40ba2de1c789",
+    "identityHash": "7efa45bc5787e1c50533bdd9712deeb3",
     "entities": [
       {
         "tableName": "exchange_rate",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`currency` TEXT NOT NULL, `price` TEXT NOT NULL, `timestamp` INTEGER NOT NULL, PRIMARY KEY(`currency`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`currency` TEXT NOT NULL, `price` REAL NOT NULL, `timestamp` INTEGER NOT NULL, PRIMARY KEY(`currency`))",
         "fields": [
           {
             "fieldPath": "currency",
@@ -17,7 +17,7 @@
           {
             "fieldPath": "price",
             "columnName": "price",
-            "affinity": "TEXT",
+            "affinity": "REAL",
             "notNull": true
           },
           {
@@ -40,7 +40,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '104f6251c78ab3c5d13d40ba2de1c789')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '7efa45bc5787e1c50533bdd9712deeb3')"
     ]
   }
 }

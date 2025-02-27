@@ -7,7 +7,7 @@ import org.koin.core.annotation.Single
 class ExchangeRateLocalRepository(private val exchangeRateDao: ExchangeRateDao) {
     suspend fun getLatestExchangeRate() = exchangeRateDao.getUsdExchangeRate()
 
-    suspend fun setLatestExchangeRate(timestamp: Long, price: String) {
+    suspend fun setLatestExchangeRate(timestamp: Long, price: Double) {
         exchangeRateDao.setUsdExchangeRate(ExchangeRateEntity(timestamp = timestamp, price = price))
     }
 }

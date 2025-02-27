@@ -7,6 +7,6 @@ import androidx.room.PrimaryKey
 data class ExchangeRateEntity(
     @PrimaryKey
     val currency: String = "usd",
-    val price: String,
+    val price: Double,
     val timestamp: Long
 )

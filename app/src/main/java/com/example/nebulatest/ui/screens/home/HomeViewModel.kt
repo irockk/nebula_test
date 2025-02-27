@@ -12,7 +12,7 @@ import org.koin.core.annotation.Factory
 
 data class HomeState(
     val balance: Int = 0,
-    val exchangeRate: String? = null
+    val exchangeRate: Double? = null
 )
 
 sealed class HomeEvents {
