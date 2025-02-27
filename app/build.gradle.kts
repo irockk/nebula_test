@@ -62,6 +62,10 @@ dependencies {
     implementation(libs.koin.compose)
     ksp(libs.koin.compiler)
 
+    implementation(libs.retrofitDependencies.retrofit)
+    implementation(libs.retrofitDependencies.converter.gson)
+    implementation(libs.gsonDependencies.gson)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

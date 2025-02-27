@@ -1,4 +1,4 @@
-package com.example.nebulatest.features.transaction
+package com.example.nebulatest.ui.screens.transaction
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
@@ -11,6 +11,6 @@ fun TransactionRoute(navController: NavController) {
     )
 }
 
-fun goToTransactionScreen(navController: NavController){
+fun goToTransactionScreen(navController: NavController) {
     navController.navigate(Screen.Transition.route)
 }

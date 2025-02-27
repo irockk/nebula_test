@@ -1,4 +1,4 @@
-package com.example.nebulatest.features.transaction
+package com.example.nebulatest.ui.screens.transaction
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
