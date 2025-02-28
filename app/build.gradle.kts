@@ -75,6 +75,10 @@ dependencies {
     implementation(libs.roomDependencies.runtime)
     implementation(libs.roomDependencies.ktx)
     ksp(libs.roomDependencies.compiler)
+    implementation(libs.roomDependencies.paging)
+
+    implementation(libs.pagingDependencies.runtime)
+    implementation(libs.pagingDependencies.compose)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

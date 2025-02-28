@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.AlertDialog
@@ -31,10 +30,10 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.example.nebulatest.R
 import com.example.nebulatest.core.formatDouble
 import com.example.nebulatest.core.formatLongToTime
-import com.example.nebulatest.features.transaction.model.TransactionCategory
 import com.example.nebulatest.features.transaction.model.TransactionType
 import com.example.nebulatest.features.transaction.model.presentation.TransactionPresentationModel
 import com.example.nebulatest.ui.theme.NebulaTestTheme
@@ -45,7 +44,6 @@ fun HomeScreen(
     goToTransaction: () -> Unit,
     addIncome: (amount: Double) -> Unit
 ) {
-
     var isIncomeDialogVisible by remember { mutableStateOf(false) }
 
     IncomeDialog(
@@ -73,16 +71,18 @@ fun HomeScreen(
             Text(text = stringResource(R.string.home_add_transaction_button_text))
         }
 
+        val transactions = uiState.transactions.collectAsLazyPagingItems()
+
         LazyColumn {
-            items(
-                items = uiState.transactions,
-                key = { it.id }) {
-                TransactionItem(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 4.dp),
-                    transaction = it
-                )
+            items(transactions.itemCount) { index ->
+                transactions[index]?.let { transaction ->
+                    TransactionItem(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 4.dp),
+                        transaction = transaction
+                    )
+                }
             }
         }
     }
@@ -97,9 +97,8 @@ private fun TransactionItem(
         modifier = modifier
             .border(2.dp, Color.DarkGray, RoundedCornerShape(6.dp))
             .background(
-                (if (transaction.transactionType == TransactionType.INCOME) Color.Green else Color.Red).copy(
-                    0.1f
-                )
+                (if (transaction.transactionType == TransactionType.INCOME)
+                    Color.Green else Color.Red).copy(0.1f)
             )
             .padding(12.dp)
     ) {
@@ -169,13 +168,7 @@ fun HomeScreenPreview() {
     NebulaTestTheme {
         HomeScreen(
             uiState = HomeState(
-                balance = 100, exchangeRate = 840000.24, transactions = listOf(
-                    TransactionPresentationModel(
-                        1, -1.03323, TransactionCategory.TAXI, TransactionType.EXPENSE
-                    ), TransactionPresentationModel(
-                        2, 1.03323, null, TransactionType.INCOME
-                    )
-                )
+                balance = 100, exchangeRate = 840000.24
             ),
             goToTransaction = {},
             addIncome = {}

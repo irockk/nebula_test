@@ -1,5 +1,6 @@
 package com.example.nebulatest.features.transaction.data.local
 
+import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -12,5 +13,5 @@ interface TransactionDao {
     suspend fun insertTransaction(transaction: TransactionEntity)
 
     @Query("SELECT * FROM transactions ORDER BY timestamp DESC")
-    suspend fun getTransactions(): List<TransactionEntity>
+    fun getTransactionsPaged(): PagingSource<Int, TransactionEntity>
 }
