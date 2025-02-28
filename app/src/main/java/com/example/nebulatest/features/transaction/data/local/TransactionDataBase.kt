@@ -1,4 +1,4 @@
-package com.example.nebulatest.features.transaction.data
+package com.example.nebulatest.features.transaction.data.local
 
 import androidx.room.Database
 import androidx.room.RoomDatabase

@@ -12,5 +12,5 @@ fun TransactionRoute(navController: NavController) {
 }
 
 fun goToTransactionScreen(navController: NavController) {
-    navController.navigate(Screen.Transition.route)
+    navController.navigate(Screen.Transaction.route)
 }

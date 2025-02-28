@@ -1,4 +1,4 @@
-package com.example.nebulatest.features.transaction.data
+package com.example.nebulatest.features.transaction.data.local
 
 import androidx.room.Dao
 import androidx.room.Insert
@@ -12,5 +12,5 @@ interface TransactionDao {
     suspend fun insertTransaction(transaction: TransactionEntity)
 
     @Query("SELECT * FROM transactions ORDER BY timestamp")
-    fun getTransactions(): List<TransactionEntity>
+    suspend fun getTransactions(): List<TransactionEntity>
 }

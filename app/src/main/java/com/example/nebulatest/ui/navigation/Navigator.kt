@@ -20,7 +20,7 @@ fun Navigator(modifier: Modifier = Modifier) {
         composable(route = Screen.Home.route) {
             HomeRoute(navController = navController)
         }
-        composable(route = Screen.Transition.route) {
+        composable(route = Screen.Transaction.route) {
             TransactionRoute(navController = navController)
         }
     }

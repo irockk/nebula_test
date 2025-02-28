@@ -6,8 +6,8 @@ import com.example.nebulatest.features.exchange.rate.data.local.ExchangeRateDao
 import com.example.nebulatest.features.exchange.rate.data.local.ExchangeRateDataBase
 import com.example.nebulatest.features.exchange.rate.data.remote.ExchangeRateRemoteRepository
 import com.example.nebulatest.features.exchange.rate.data.remote.ExchangeRateService
-import com.example.nebulatest.features.transaction.data.TransactionDao
-import com.example.nebulatest.features.transaction.data.TransactionDataBase
+import com.example.nebulatest.features.transaction.data.local.TransactionDao
+import com.example.nebulatest.features.transaction.data.local.TransactionDataBase
 import okhttp3.OkHttpClient
 import org.koin.dsl.module
 import retrofit2.Retrofit

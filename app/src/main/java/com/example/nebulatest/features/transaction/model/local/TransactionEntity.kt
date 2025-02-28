@@ -16,3 +16,11 @@ data class TransactionEntity(
     @TypeConverters(TransactionTypeConverter::class) val transactionType: TransactionType,
     val timestamp: Long = System.currentTimeMillis()
 )
+
+fun TransactionEntity.toTransactionLocalModel() = TransactionLocalModel(
+    id = id,
+    amount = amount,
+    category = category,
+    transactionType = transactionType,
+    timestamp = timestamp
+)
