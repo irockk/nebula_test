@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">nebula test</string>
     <string name="home_add_transaction_button_text">Add transaction</string>
+    <string name="income_text">INCOME</string>
 </resources>
