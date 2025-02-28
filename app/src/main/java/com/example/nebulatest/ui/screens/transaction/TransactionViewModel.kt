@@ -2,6 +2,7 @@ package com.example.nebulatest.ui.screens.transaction
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.nebulatest.features.balance.data.BalanceLocalDataSource
 import com.example.nebulatest.features.transaction.data.local.TransactionLocalRepository
 import com.example.nebulatest.features.transaction.model.ExpanseModel
 import com.example.nebulatest.features.transaction.model.TransactionCategory
@@ -17,7 +18,8 @@ data class TransactionState(
 
 @Factory
 class TransactionViewModel(
-    private val transactionLocalRepository: TransactionLocalRepository
+    private val transactionLocalRepository: TransactionLocalRepository,
+    private val balanceLocalDataSource: BalanceLocalDataSource
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(TransactionState())
@@ -31,6 +33,7 @@ class TransactionViewModel(
                     _uiState.value.selectedCategory
                 )
             )
+            balanceLocalDataSource.updateBalance(-amount)
         }
     }
 
