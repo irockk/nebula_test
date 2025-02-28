@@ -6,6 +6,8 @@ import com.example.nebulatest.features.exchange.rate.data.local.ExchangeRateDao
 import com.example.nebulatest.features.exchange.rate.data.local.ExchangeRateDataBase
 import com.example.nebulatest.features.exchange.rate.data.remote.ExchangeRateRemoteRepository
 import com.example.nebulatest.features.exchange.rate.data.remote.ExchangeRateService
+import com.example.nebulatest.features.transaction.data.local.TransactionDao
+import com.example.nebulatest.features.transaction.data.local.TransactionDataBase
 import okhttp3.OkHttpClient
 import org.koin.dsl.module
 import retrofit2.Retrofit
@@ -28,7 +30,7 @@ val networkModule = module {
     factory { ExchangeRateRemoteRepository(exchangeRateService = provideNetworkApi(provideRetrofit())) }
 }
 
-val dbModule = module {
+val exchangeRateDbModule = module {
     fun provideDataBase(application: Application): ExchangeRateDataBase =
         Room.databaseBuilder(application, ExchangeRateDataBase::class.java, "exchange_rate")
             .fallbackToDestructiveMigration()
@@ -36,6 +38,18 @@ val dbModule = module {
 
     fun provideDao(exchangeDataBase: ExchangeRateDataBase): ExchangeRateDao =
         exchangeDataBase.exchangeRateDao()
+    single { provideDataBase(get()) }
+    single { provideDao(get()) }
+}
+
+val transactionDbModule = module {
+    fun provideDataBase(application: Application): TransactionDataBase =
+        Room.databaseBuilder(application, TransactionDataBase::class.java, "transaction")
+            .fallbackToDestructiveMigration()
+            .build()
+
+    fun provideDao(transactionDataBase: TransactionDataBase): TransactionDao =
+        transactionDataBase.transactionDao()
     single { provideDataBase(get()) }
     single { provideDao(get()) }
 }

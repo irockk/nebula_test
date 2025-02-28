@@ -1,4 +1,12 @@
 <resources>
     <string name="app_name">nebula test</string>
     <string name="home_add_transaction_button_text">Add transaction</string>
+    <string name="income_text">INCOME</string>
+    <string name="income_dialog_ok">Ok</string>
+    <string name="income_dialog_cancel">Cancel</string>
+    <string name="income_dialog_title">Add Income</string>
+    <string name="income_dialog_currency">BTC</string>
+    <string name="home_add_income_button_text">Add income</string>
+    <string name="transaction_goback_button_text">goBack</string>
+    <string name="transition_add_transition_button_text">Add transition</string>
 </resources>
