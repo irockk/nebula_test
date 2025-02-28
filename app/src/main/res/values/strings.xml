@@ -7,4 +7,6 @@
     <string name="income_dialog_title">Add Income</string>
     <string name="income_dialog_currency">BTC</string>
     <string name="home_add_income_button_text">Add income</string>
+    <string name="transaction_goback_button_text">goBack</string>
+    <string name="transition_add_transition_button_text">Add transition</string>
 </resources>

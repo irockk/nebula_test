@@ -137,11 +137,11 @@ private fun IncomeDialog(
             title = { Text(stringResource(R.string.income_dialog_title)) },
             text = {
                 TextField(
+                    modifier = Modifier.fillMaxWidth(),
                     value = amountState.value,
                     onValueChange = { amountState.value = it },
                     label = { Text(stringResource(R.string.income_dialog_currency)) },
                     keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
-                    modifier = Modifier.fillMaxWidth()
                 )
             },
             confirmButton = {
