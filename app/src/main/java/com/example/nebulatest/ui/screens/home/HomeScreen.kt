@@ -13,12 +13,21 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -33,8 +42,18 @@ import com.example.nebulatest.ui.theme.NebulaTestTheme
 @Composable
 fun HomeScreen(
     uiState: HomeState,
-    goToTransaction: () -> Unit
+    goToTransaction: () -> Unit,
+    addIncome: (amount: Double) -> Unit
 ) {
+
+    var isIncomeDialogVisible by remember { mutableStateOf(false) }
+
+    IncomeDialog(
+        isVisible = isIncomeDialogVisible,
+        onDismiss = { isIncomeDialogVisible = false },
+        onSave = { addIncome(it) }
+    )
+
     Column(modifier = Modifier
         .fillMaxSize()
         .padding(12.dp)) {
@@ -44,6 +63,10 @@ fun HomeScreen(
             horizontalArrangement = Arrangement.End
         ) {
             Text(text = uiState.exchangeRate.toString())
+        }
+
+        TextButton(onClick = { isIncomeDialogVisible = true }) {
+            Text(text = stringResource(R.string.home_add_income_button_text))
         }
 
         TextButton(onClick = goToTransaction) {
@@ -100,6 +123,46 @@ private fun TransactionItem(
     }
 }
 
+@Composable
+private fun IncomeDialog(
+    isVisible: Boolean,
+    onDismiss: () -> Unit,
+    onSave: (Double) -> Unit
+) {
+    if (isVisible) {
+        val amountState = remember { mutableStateOf("") }
+
+        AlertDialog(
+            onDismissRequest = { onDismiss() },
+            title = { Text(stringResource(R.string.income_dialog_title)) },
+            text = {
+                TextField(
+                    value = amountState.value,
+                    onValueChange = { amountState.value = it },
+                    label = { Text(stringResource(R.string.income_dialog_currency)) },
+                    keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
+                    modifier = Modifier.fillMaxWidth()
+                )
+            },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        amountState.value.toDoubleOrNull()?.let { onSave(it) }
+                        onDismiss()
+                    }
+                ) {
+                    Text(stringResource(R.string.income_dialog_ok))
+                }
+            },
+            dismissButton = {
+                Button(onClick = { onDismiss() }) {
+                    Text(stringResource(R.string.income_dialog_cancel))
+                }
+            }
+        )
+    }
+}
+
 @Preview(showBackground = true)
 @Composable
 fun HomeScreenPreview() {
@@ -114,7 +177,8 @@ fun HomeScreenPreview() {
                     )
                 )
             ),
-            goToTransaction = {}
+            goToTransaction = {},
+            addIncome = {}
         )
     }
 }

@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.nebulatest.features.exchange.rate.domain.GetExchangeRateUseCase
 import com.example.nebulatest.features.transaction.data.local.TransactionLocalRepository
+import com.example.nebulatest.features.transaction.model.IncomeModel
 import com.example.nebulatest.features.transaction.model.presentation.TransactionPresentationModel
 import com.example.nebulatest.features.transaction.model.presentation.toTransactionPresentationModel
 import kotlinx.coroutines.channels.Channel
@@ -45,6 +46,12 @@ class HomeViewModel(
             val transactions = transactionLocalRepository.getAllTransactions()
                 .map { it.toTransactionPresentationModel() }
             _uiState.update { uiState -> uiState.copy(transactions = transactions) }
+        }
+    }
+
+    fun addIncome(income: Double) {
+        viewModelScope.launch {
+            transactionLocalRepository.addIncome(IncomeModel(income))
         }
     }
 

@@ -18,7 +18,8 @@ fun HomeRoute(navController: NavController) {
 
     HomeScreen(
         uiState = uiState,
-        goToTransaction = { goToTransactionScreen(navController) }
+        goToTransaction = { goToTransactionScreen(navController) },
+        addIncome = viewModel::addIncome
     )
 
     HandleHomeEvents(
