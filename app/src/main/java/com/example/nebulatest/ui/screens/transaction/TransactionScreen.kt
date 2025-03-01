@@ -21,9 +21,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.example.nebulatest.R
+import com.example.nebulatest.core.Constants
 import com.example.nebulatest.features.transaction.model.TransactionCategory
+import com.example.nebulatest.ui.theme.Dimens
 import com.example.nebulatest.ui.theme.NebulaTestTheme
 
 @Composable
@@ -33,12 +34,12 @@ fun TransactionScreen(
     saveExpanse: (amount: Double) -> Unit,
     goBack: () -> Unit
 ) {
-    val amountState = remember { mutableStateOf("") }
+    val amountState = remember { mutableStateOf(Constants.EMPTY_STRING) }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(12.dp),
+            .padding(Dimens.screenPadding),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
 
@@ -99,7 +100,7 @@ private fun CategoryButton(
             containerColor = if (isSelected) Color.Blue else Color.LightGray,
             contentColor = if (isSelected) Color.White else Color.Black
         ),
-        shape = RoundedCornerShape(12.dp)
+        shape = RoundedCornerShape(Dimens.cornerRadius)
     ) {
         Text(text = category.name)
     }

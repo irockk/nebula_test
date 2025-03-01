@@ -2,6 +2,7 @@ package com.example.nebulatest.di
 
 import android.app.Application
 import androidx.room.Room
+import com.example.nebulatest.core.Constants.BASE_EXCHANGE_RATE_URL
 import com.example.nebulatest.features.exchange.rate.data.local.ExchangeRateDao
 import com.example.nebulatest.features.exchange.rate.data.local.ExchangeRateDataBase
 import com.example.nebulatest.features.exchange.rate.data.remote.ExchangeRateRemoteRepository
@@ -13,13 +14,10 @@ import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-private const val BASE_URL = "https://api.coincap.io/v2/"
-
 val networkModule = module {
-
     fun provideRetrofit(): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(BASE_URL)
+            .baseUrl(BASE_EXCHANGE_RATE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .client(OkHttpClient.Builder().build())
             .build()
