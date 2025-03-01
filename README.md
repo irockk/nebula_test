@@ -26,3 +26,5 @@ The correct format for transaction amounts is a double value with a dot (e.g., "
 All Bitcoin transaction amounts (BTS) are displayed rounded to 10 decimal places. However, it’s possible to create transactions with as small an amount as you want.All calculations are done with full precision, and only the displayed values are rounded for the UI. <br />
 
 There are also no placeholders for loading and error states, but it should be done in future. <br />
+
+https://github.com/user-attachments/assets/d63e2aeb-9c5d-4fdd-94d1-37c31b9039be
