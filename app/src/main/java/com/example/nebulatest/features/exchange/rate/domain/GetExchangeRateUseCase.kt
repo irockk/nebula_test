@@ -1,6 +1,5 @@
 package com.example.nebulatest.features.exchange.rate.domain
 
-import android.util.Log
 import com.example.nebulatest.features.exchange.rate.data.local.ExchangeRateLocalRepository
 import com.example.nebulatest.features.exchange.rate.data.remote.ExchangeRateRemoteRepository
 import kotlinx.coroutines.Dispatchers
@@ -23,11 +22,8 @@ class GetExchangeRateUseCase(
                         newExchangeRate.second, newExchangeRate.first
                     )
                 }
-                //TODO remove
-                Log.e("GetExchangeRateUseCase", "new value")
                 newExchangeRateResult.map { it.first }
             } else {
-                Log.e("GetExchangeRateUseCase", "value from db")
                 Result.success(latestExchangeRate.price)
             }
         }
