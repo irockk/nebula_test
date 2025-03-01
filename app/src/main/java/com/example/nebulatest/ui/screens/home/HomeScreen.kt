@@ -14,7 +14,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -22,6 +21,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -33,7 +33,8 @@ import com.example.nebulatest.core.formatLongToDate
 import com.example.nebulatest.core.formatLongToTime
 import com.example.nebulatest.features.transaction.model.TransactionType
 import com.example.nebulatest.features.transaction.model.presentation.TransactionPresentationModel
-import com.example.nebulatest.ui.screens.transaction.components.IncomeDialog
+import com.example.nebulatest.ui.components.IncomeDialog
+import com.example.nebulatest.ui.components.TransactionTextButton
 import com.example.nebulatest.ui.theme.Dimens
 import com.example.nebulatest.ui.theme.NebulaTestTheme
 
@@ -51,31 +52,63 @@ fun HomeScreen(
         onSave = { addIncome(it) }
     )
 
-    Column(modifier = Modifier
-        .fillMaxSize()
-        .padding(Dimens.screenPadding),
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(Dimens.screenPadding),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.End
-        ) {
-            Text(text = uiState.exchangeRate.toString())
+        uiState.exchangeRate?.let { exchangeRate ->
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.End
+            ) {
+                Text(
+                    text = stringResource(
+                        R.string.btc_to_usd_exchange_rate_text,
+                        exchangeRate
+                    )
+                )
+            }
         }
+
+        Spacer(Modifier.weight(1f))
+
+        Text(
+            text = stringResource(R.string.balance_title),
+            fontSize = 32.sp
+        )
 
         Text(
             text = formatDouble(uiState.balance),
-            fontSize = 42.sp
+            fontSize = 52.sp
         )
 
-        TextButton(onClick = { isIncomeDialogVisible = true }) {
-            Text(text = stringResource(R.string.home_add_income_button_text))
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            TransactionTextButton(
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(Dimens.paddingMedium),
+                text = stringResource(R.string.home_add_income_button_text),
+                onClick = { isIncomeDialogVisible = true }
+            )
+
+            TransactionTextButton(
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(Dimens.paddingMedium),
+                text = stringResource(R.string.home_add_transaction_button_text),
+                onClick = goToTransaction
+            )
         }
 
-        TextButton(onClick = goToTransaction) {
-            Text(text = stringResource(R.string.home_add_transaction_button_text))
-        }
+        Text(
+            modifier = Modifier.padding(vertical = Dimens.paddingSmall),
+            text = "Transactions:"
+        )
 
         val transactions = uiState.transactions.collectAsLazyPagingItems()
 
@@ -83,10 +116,11 @@ fun HomeScreen(
             formatLongToDate(transaction.timestamp)
         }
 
-        LazyColumn {
+        LazyColumn(modifier = Modifier.weight(2f)) {
             groupedTransactions.forEach { (date, transactionsForDate) ->
                 item {
                     Text(
+                        modifier = Modifier.padding(top = Dimens.paddingExtraSmall),
                         text = date
                     )
                 }
@@ -112,9 +146,11 @@ private fun TransactionItem(
     Row(
         modifier = modifier
             .border(Dimens.borderWidth, Color.DarkGray, RoundedCornerShape(Dimens.cornerRadius))
+            .clip(RoundedCornerShape(Dimens.cornerRadius))
             .background(
-                (if (transaction.transactionType == TransactionType.INCOME)
-                    Color.Green else Color.Red).copy(0.1f)
+                (if (transaction.transactionType == TransactionType.INCOME) Color.Green else Color.Red).copy(
+                    0.1f
+                )
             )
             .padding(Dimens.paddingMedium)
     ) {
@@ -128,8 +164,7 @@ private fun TransactionItem(
 
         Text(
             text = transaction.category?.name ?: stringResource(R.string.income_text),
-            fontSize = 16.sp,
-            color = Color.Black
+            fontSize = 16.sp
         )
 
         Spacer(Modifier.weight(1f))

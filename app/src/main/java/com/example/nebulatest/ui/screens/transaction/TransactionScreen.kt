@@ -1,10 +1,14 @@
 package com.example.nebulatest.ui.screens.transaction
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -24,9 +28,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.nebulatest.R
 import com.example.nebulatest.core.Constants
 import com.example.nebulatest.features.transaction.model.TransactionCategory
+import com.example.nebulatest.ui.components.TransactionTextButton
 import com.example.nebulatest.ui.theme.Dimens
 import com.example.nebulatest.ui.theme.NebulaTestTheme
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun TransactionScreen(
     uiState: TransactionState,
@@ -53,12 +59,20 @@ fun TransactionScreen(
             keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
         )
 
-        TransactionCategory.entries.forEach { category ->
-            CategoryButton(
-                category = category,
-                setSelectedCategory = { setSelectedCategory(category) },
-                isSelected = uiState.selectedCategory == category
-            )
+        Spacer(Modifier.height(Dimens.paddingBig))
+
+        FlowRow(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(Dimens.paddingSmall),
+            verticalArrangement = Arrangement.spacedBy(Dimens.paddingSmall),
+        ) {
+            TransactionCategory.entries.forEach { category ->
+                CategoryButton(
+                    category = category,
+                    setSelectedCategory = { setSelectedCategory(category) },
+                    isSelected = uiState.selectedCategory == category
+                )
+            }
         }
 
         Spacer(Modifier.weight(1f))
@@ -70,18 +84,13 @@ fun TransactionScreen(
 
             Spacer(Modifier.weight(1f))
 
-            TextButton(
+            TransactionTextButton(
+                text = stringResource(R.string.transition_add_transition_button_text),
                 onClick = {
                     amountState.value.toDoubleOrNull()?.let { saveExpanse(it) }
                     goBack()
-                },
-                colors = ButtonDefaults.textButtonColors(
-                    containerColor = Color.Blue,
-                    contentColor = Color.White
-                )
-            ) {
-                Text(text = stringResource(R.string.transition_add_transition_button_text))
-            }
+                }
+            )
         }
     }
 }
