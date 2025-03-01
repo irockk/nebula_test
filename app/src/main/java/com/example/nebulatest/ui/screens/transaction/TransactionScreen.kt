@@ -37,7 +37,7 @@ import com.example.nebulatest.ui.theme.NebulaTestTheme
 fun TransactionScreen(
     uiState: TransactionState,
     setSelectedCategory: (category: TransactionCategory) -> Unit,
-    saveExpanse: (amount: Double) -> Unit,
+    saveExpanse: (amount: String) -> Unit,
     goBack: () -> Unit
 ) {
     val amountState = remember { mutableStateOf(Constants.EMPTY_STRING) }
@@ -87,7 +87,7 @@ fun TransactionScreen(
             TransactionTextButton(
                 text = stringResource(R.string.transition_add_transition_button_text),
                 onClick = {
-                    amountState.value.toDoubleOrNull()?.let { saveExpanse(it) }
+                    saveExpanse(amountState.value)
                     goBack()
                 }
             )

@@ -18,7 +18,7 @@ import com.example.nebulatest.core.Constants
 fun IncomeDialog(
     isVisible: Boolean,
     onDismiss: () -> Unit,
-    onSave: (Double) -> Unit
+    onSave: (String) -> Unit
 ) {
     if (isVisible) {
         val amountState = remember { mutableStateOf(Constants.EMPTY_STRING) }
@@ -39,7 +39,7 @@ fun IncomeDialog(
                 TransactionTextButton(
                     text = stringResource(R.string.income_dialog_ok),
                     onClick = {
-                        amountState.value.toDoubleOrNull()?.let { onSave(it) }
+                        onSave(amountState.value)
                         onDismiss()
                     }
                 )

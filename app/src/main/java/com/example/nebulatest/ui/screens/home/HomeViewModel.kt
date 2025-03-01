@@ -18,7 +18,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -31,7 +30,7 @@ data class HomeState(
 )
 
 sealed class HomeEvents {
-    data object ShowSnackbar : HomeEvents()
+    data object ShowErrorSnackbar : HomeEvents()
 }
 
 @Factory
@@ -67,10 +66,15 @@ class HomeViewModel(
         _uiState.update { it.copy(transactions = transactionsFlow) }
     }
 
-    fun addIncome(income: Double) {
+    fun addIncome(incomeText: String) {
         viewModelScope.launch {
-            transactionLocalRepository.addIncome(IncomeModel(income))
-            balanceLocalDataSource.updateBalance(income)
+            val income = incomeText.toDoubleOrNull()
+            if (income != null) {
+                transactionLocalRepository.addIncome(IncomeModel(income))
+                balanceLocalDataSource.updateBalance(income)
+            } else {
+                _events.send(HomeEvents.ShowErrorSnackbar)
+            }
         }
     }
 
@@ -80,7 +84,7 @@ class HomeViewModel(
             if (result.isSuccess) {
                 _uiState.update { uiState -> uiState.copy(exchangeRate = result.getOrNull()) }
             } else {
-                _events.send(HomeEvents.ShowSnackbar)
+                _events.send(HomeEvents.ShowErrorSnackbar)
             }
         }
     }
