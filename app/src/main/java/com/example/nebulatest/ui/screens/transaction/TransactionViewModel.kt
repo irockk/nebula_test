@@ -6,8 +6,10 @@ import com.example.nebulatest.features.balance.data.BalanceLocalDataSource
 import com.example.nebulatest.features.transaction.data.local.TransactionLocalRepository
 import com.example.nebulatest.features.transaction.model.ExpanseModel
 import com.example.nebulatest.features.transaction.model.TransactionCategory
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.koin.core.annotation.Factory
@@ -15,6 +17,10 @@ import org.koin.core.annotation.Factory
 data class TransactionState(
     val selectedCategory: TransactionCategory = TransactionCategory.entries.first()
 )
+
+sealed class TransactionEvents {
+    data object ShowErrorSnackbar : TransactionEvents()
+}
 
 @Factory
 class TransactionViewModel(
@@ -25,15 +31,23 @@ class TransactionViewModel(
     private val _uiState = MutableStateFlow(TransactionState())
     val uiState = _uiState.asStateFlow()
 
-    fun addExpanse(amount: Double) {
+    private val _events = Channel<TransactionEvents>()
+    val events = _events.receiveAsFlow()
+
+    fun addExpanse(amountText: String) {
         viewModelScope.launch {
-            transactionLocalRepository.addExpense(
-                ExpanseModel(
-                    amount,
-                    _uiState.value.selectedCategory
+            val amount = amountText.toDoubleOrNull()
+            if (amount != null) {
+                transactionLocalRepository.addExpense(
+                    ExpanseModel(
+                        amount,
+                        _uiState.value.selectedCategory
+                    )
                 )
-            )
-            balanceLocalDataSource.updateBalance(-amount)
+                balanceLocalDataSource.updateBalance(-amount)
+            } else {
+                _events.send(TransactionEvents.ShowErrorSnackbar)
+            }
         }
     }
 

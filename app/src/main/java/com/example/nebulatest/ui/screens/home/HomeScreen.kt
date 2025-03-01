@@ -42,7 +42,7 @@ import com.example.nebulatest.ui.theme.NebulaTestTheme
 fun HomeScreen(
     uiState: HomeState,
     goToTransaction: () -> Unit,
-    addIncome: (amount: Double) -> Unit
+    addIncome: (amount: String) -> Unit
 ) {
     var isIncomeDialogVisible by remember { mutableStateOf(false) }
 
