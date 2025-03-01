@@ -23,6 +23,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -54,7 +55,9 @@ fun HomeScreen(
 
     Column(modifier = Modifier
         .fillMaxSize()
-        .padding(12.dp)) {
+        .padding(12.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
 
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -62,6 +65,11 @@ fun HomeScreen(
         ) {
             Text(text = uiState.exchangeRate.toString())
         }
+
+        Text(
+            text = formatDouble(uiState.balance),
+            fontSize = 42.sp
+        )
 
         TextButton(onClick = { isIncomeDialogVisible = true }) {
             Text(text = stringResource(R.string.home_add_income_button_text))
@@ -168,7 +176,7 @@ fun HomeScreenPreview() {
     NebulaTestTheme {
         HomeScreen(
             uiState = HomeState(
-                balance = 100, exchangeRate = 840000.24
+                balance = 100.0, exchangeRate = 840000.24
             ),
             goToTransaction = {},
             addIncome = {}
