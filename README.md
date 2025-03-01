@@ -1,15 +1,15 @@
-Technologies Used:
-Kotlin – Primary language for development
-Jetpack Compose – UI framework for building responsive UIs
-Coroutines – For asynchronous programming
-Room – Local database for storing transactions and caching USD exchange rates
-Paging3 – For paginated loading of transactions
-DataStore – Local storage for user balance
-Koin (with Koin Annotations) – Dependency injection
-Retrofit – API client for fetching Bitcoin exchange rates
-Mockito & JUnit – For unit testing the ViewModel and business logic
+## Technologies Used:
+Kotlin – Primary language for development <br />
+Jetpack Compose – UI framework for building responsive UIs <br />
+Coroutines – For asynchronous programming <br />
+Room – Local database for storing transactions and caching USD exchange rates <br />
+Paging3 – For paginated loading of transactions <br />
+DataStore – Local storage for user balance <br />
+Koin (with Koin Annotations) – Dependency injection <br />
+Retrofit – API client for fetching Bitcoin exchange rates <br />
+Mockito & JUnit – For unit testing the ViewModel and business logic <br />
 
-Architecture: This app follows the MVVM architecture:
+## Architecture: This app follows the MVVM architecture:
 ViewModel: Manages UI-related data and handles user actions and business logic.
 UseCases: Encapsulate business logic and interact with the data layer.
 Repositories: Manage data operations, including transactions and balances.
