@@ -1,9 +1,8 @@
-package com.example.nebulatest.ui.screens.transaction.components
+package com.example.nebulatest.ui.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -37,19 +36,19 @@ fun IncomeDialog(
                 )
             },
             confirmButton = {
-                Button(
+                TransactionTextButton(
+                    text = stringResource(R.string.income_dialog_ok),
                     onClick = {
                         amountState.value.toDoubleOrNull()?.let { onSave(it) }
                         onDismiss()
                     }
-                ) {
-                    Text(stringResource(R.string.income_dialog_ok))
-                }
+                )
             },
             dismissButton = {
-                Button(onClick = { onDismiss() }) {
-                    Text(stringResource(R.string.income_dialog_cancel))
-                }
+                TransactionTextButton(
+                    text = stringResource(R.string.income_dialog_cancel),
+                    onClick = onDismiss
+                )
             }
         )
     }
