@@ -11,6 +11,7 @@ import com.example.nebulatest.features.transaction.data.local.TransactionLocalRe
 import com.example.nebulatest.features.transaction.model.IncomeModel
 import com.example.nebulatest.features.transaction.model.presentation.TransactionPresentationModel
 import com.example.nebulatest.features.transaction.model.presentation.toTransactionPresentationModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -52,7 +53,7 @@ class HomeViewModel(
     }
 
     private fun observeBalance() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             balanceLocalDataSource.getBalance().collectLatest { balance ->
                 _uiState.update { uiState -> uiState.copy(balance = balance) }
             }
@@ -67,7 +68,7 @@ class HomeViewModel(
     }
 
     fun addIncome(incomeText: String) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val income = incomeText.toDoubleOrNull()
             if (income != null) {
                 transactionLocalRepository.addIncome(IncomeModel(income))
@@ -79,7 +80,7 @@ class HomeViewModel(
     }
 
     private fun setExchangeRate() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val result = getExchangeRateUseCase.invoke()
             if (result.isSuccess) {
                 _uiState.update { uiState -> uiState.copy(exchangeRate = result.getOrNull()) }

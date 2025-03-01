@@ -38,11 +38,20 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+
     kotlinOptions {
         jvmTarget = "11"
     }
     buildFeatures {
         compose = true
+    }
+
+    android {
+        testOptions {
+            unitTests.all {
+                it.useJUnitPlatform()
+            }
+        }
     }
 }
 
@@ -66,6 +75,8 @@ dependencies {
     implementation(libs.koin.annotations)
     implementation(libs.koin.android)
     implementation(libs.koin.compose)
+    implementation(libs.core.ktx)
+    testImplementation(libs.testng)
     ksp(libs.koin.compiler)
 
     implementation(libs.retrofitDependencies.retrofit)
@@ -80,11 +91,18 @@ dependencies {
     implementation(libs.pagingDependencies.runtime)
     implementation(libs.pagingDependencies.compose)
 
-    testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
+    testRuntimeOnly(libs.junit.platform)
+    testImplementation(libs.junit.jupiter.api)
+    testImplementation(libs.junit.jupiter.engine)
+
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    testImplementation(libs.mockitoDependency.core)
+    testImplementation(libs.mockitoDependency.kotlin)
+    testImplementation(libs.kotlinDependencies.coroutines.test)
+    testImplementation(libs.mockitoDependency.inline)
 }
