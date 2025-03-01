@@ -11,13 +11,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -27,16 +24,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.example.nebulatest.R
 import com.example.nebulatest.core.formatDouble
+import com.example.nebulatest.core.formatLongToDate
 import com.example.nebulatest.core.formatLongToTime
 import com.example.nebulatest.features.transaction.model.TransactionType
 import com.example.nebulatest.features.transaction.model.presentation.TransactionPresentationModel
+import com.example.nebulatest.ui.screens.transaction.components.IncomeDialog
+import com.example.nebulatest.ui.theme.Dimens
 import com.example.nebulatest.ui.theme.NebulaTestTheme
 
 @Composable
@@ -55,7 +53,7 @@ fun HomeScreen(
 
     Column(modifier = Modifier
         .fillMaxSize()
-        .padding(12.dp),
+        .padding(Dimens.screenPadding),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
@@ -81,13 +79,23 @@ fun HomeScreen(
 
         val transactions = uiState.transactions.collectAsLazyPagingItems()
 
+        val groupedTransactions = transactions.itemSnapshotList.items.groupBy { transaction ->
+            formatLongToDate(transaction.timestamp)
+        }
+
         LazyColumn {
-            items(transactions.itemCount) { index ->
-                transactions[index]?.let { transaction ->
+            groupedTransactions.forEach { (date, transactionsForDate) ->
+                item {
+                    Text(
+                        text = date
+                    )
+                }
+
+                items(transactionsForDate) { transaction ->
                     TransactionItem(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(vertical = 4.dp),
+                            .padding(vertical = Dimens.paddingExtraSmall),
                         transaction = transaction
                     )
                 }
@@ -103,12 +111,12 @@ private fun TransactionItem(
 ) {
     Row(
         modifier = modifier
-            .border(2.dp, Color.DarkGray, RoundedCornerShape(6.dp))
+            .border(Dimens.borderWidth, Color.DarkGray, RoundedCornerShape(Dimens.cornerRadius))
             .background(
                 (if (transaction.transactionType == TransactionType.INCOME)
                     Color.Green else Color.Red).copy(0.1f)
             )
-            .padding(12.dp)
+            .padding(Dimens.paddingMedium)
     ) {
         Text(
             text = formatLongToTime(transaction.timestamp),
@@ -116,7 +124,7 @@ private fun TransactionItem(
             fontSize = 12.sp,
         )
 
-        Spacer(Modifier.width(12.dp))
+        Spacer(Modifier.width(Dimens.paddingMedium))
 
         Text(
             text = transaction.category?.name ?: stringResource(R.string.income_text),
@@ -127,46 +135,6 @@ private fun TransactionItem(
         Spacer(Modifier.weight(1f))
 
         Text(text = formatDouble(transaction.amount))
-    }
-}
-
-@Composable
-private fun IncomeDialog(
-    isVisible: Boolean,
-    onDismiss: () -> Unit,
-    onSave: (Double) -> Unit
-) {
-    if (isVisible) {
-        val amountState = remember { mutableStateOf("") }
-
-        AlertDialog(
-            onDismissRequest = { onDismiss() },
-            title = { Text(stringResource(R.string.income_dialog_title)) },
-            text = {
-                TextField(
-                    modifier = Modifier.fillMaxWidth(),
-                    value = amountState.value,
-                    onValueChange = { amountState.value = it },
-                    label = { Text(stringResource(R.string.income_dialog_currency)) },
-                    keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
-                )
-            },
-            confirmButton = {
-                Button(
-                    onClick = {
-                        amountState.value.toDoubleOrNull()?.let { onSave(it) }
-                        onDismiss()
-                    }
-                ) {
-                    Text(stringResource(R.string.income_dialog_ok))
-                }
-            },
-            dismissButton = {
-                Button(onClick = { onDismiss() }) {
-                    Text(stringResource(R.string.income_dialog_cancel))
-                }
-            }
-        )
     }
 }
 
