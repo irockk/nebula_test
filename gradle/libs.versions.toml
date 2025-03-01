@@ -1,8 +1,11 @@
 [versions]
 agp = "8.8.2"
-junit = "4.13.2"
+junit = "5.12.0"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
+mockitoVersion = "5.15.2"
+mockitoInlineVersion = "5.2.0"
+mockitoKotlinVersion = "5.4.0"
 
 kotlin = "2.0.0"
 coreKtx = "1.15.0"
@@ -26,14 +29,25 @@ gsonVersion = "2.11.0"
 roomVersion = "2.6.1"
 
 pagingVersion = "3.3.6"
+coreKtxVersion = "1.6.1"
+testng = "6.9.6"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
-junit = { group = "junit", name = "junit", version.ref = "junit" }
+
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
+junit-jupiter-api = { group = "org.junit.jupiter", name = "junit-jupiter-api", version.ref = "junit" }
+junit-jupiter-engine = { group = "org.junit.jupiter", name = "junit-jupiter-engine", version.ref = "junit" }
+junit-platform = { group = "org.junit.platform", name = "junit-platform-launcher" }
+
+mockitoDependency-core = { group = "org.mockito", name = "mockito-core", version.ref = "mockitoVersion" }
+mockitoDependency-kotlin = { group = "org.mockito.kotlin", name = "mockito-kotlin", version.ref = "mockitoKotlinVersion" }
+mockitoDependency-inline = { group = "org.mockito", name = "mockito-inline", version.ref = "mockitoInlineVersion" }
+
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
 kotlinDependencies-coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutinesVersion" }
+kotlinDependencies-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutinesVersion" }
 
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
@@ -43,7 +57,6 @@ androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
 androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
-androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 
 datastoreDependencies-datastore = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastoreVersion" }
@@ -65,6 +78,8 @@ roomDependencies-paging = { group = "androidx.room", name = "room-paging", versi
 
 pagingDependencies-compose = { group = "androidx.paging", name = "paging-compose", version.ref = "pagingVersion" }
 pagingDependencies-runtime = { group = "androidx.paging", name = "paging-runtime", version.ref = "pagingVersion" }
+core-ktx = { group = "androidx.test", name = "core-ktx", version.ref = "coreKtxVersion" }
+testng = { group = "org.testng", name = "testng", version.ref = "testng" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -72,4 +87,3 @@ kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 room = { id = "androidx.room", version.ref = "roomVersion" }
-

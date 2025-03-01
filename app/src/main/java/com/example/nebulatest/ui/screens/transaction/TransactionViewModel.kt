@@ -6,6 +6,7 @@ import com.example.nebulatest.features.balance.data.BalanceLocalDataSource
 import com.example.nebulatest.features.transaction.data.local.TransactionLocalRepository
 import com.example.nebulatest.features.transaction.model.ExpanseModel
 import com.example.nebulatest.features.transaction.model.TransactionCategory
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -35,7 +36,7 @@ class TransactionViewModel(
     val events = _events.receiveAsFlow()
 
     fun addExpanse(amountText: String) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val amount = amountText.toDoubleOrNull()
             if (amount != null) {
                 transactionLocalRepository.addExpense(
