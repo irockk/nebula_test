@@ -95,6 +95,7 @@ dependencies {
     testRuntimeOnly(libs.junit.platform)
     testImplementation(libs.junit.jupiter.api)
     testImplementation(libs.junit.jupiter.engine)
+    testImplementation(libs.turbineDependency.turbine)
 
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))

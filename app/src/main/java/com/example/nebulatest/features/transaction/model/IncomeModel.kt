@@ -4,7 +4,7 @@ import com.example.nebulatest.features.transaction.model.local.TransactionEntity
 
 data class IncomeModel(
     val amount: Double,
-    val timestamp: Long = System.currentTimeMillis()
+    val timestamp: Long
 )
 
 fun IncomeModel.toTransactionEntity() = TransactionEntity(

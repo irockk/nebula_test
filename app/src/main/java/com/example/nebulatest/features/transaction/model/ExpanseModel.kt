@@ -5,7 +5,7 @@ import com.example.nebulatest.features.transaction.model.local.TransactionEntity
 data class ExpanseModel(
     val amount: Double,
     val category: TransactionCategory,
-    val timestamp: Long = System.currentTimeMillis()
+    val timestamp: Long
 )
 
 fun ExpanseModel.toTransactionEntity() = TransactionEntity(

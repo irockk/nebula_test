@@ -15,7 +15,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.withContext
 import org.koin.core.annotation.Factory
 
 @Factory
@@ -24,17 +23,13 @@ class TransactionLocalRepository(private val transactionDao: TransactionDao) {
     private var pagingSource: PagingSource<Int, TransactionEntity>? = null
 
     suspend fun addIncome(income: IncomeModel) {
-        withContext(Dispatchers.IO) {
-            transactionDao.insertTransaction(income.toTransactionEntity())
-            pagingSource?.invalidate()
-        }
+        transactionDao.insertTransaction(income.toTransactionEntity())
+        pagingSource?.invalidate()
     }
 
     suspend fun addExpense(expanse: ExpanseModel) {
-        withContext(Dispatchers.IO) {
-            transactionDao.insertTransaction(expanse.toTransactionEntity())
-            pagingSource?.invalidate()
-        }
+        transactionDao.insertTransaction(expanse.toTransactionEntity())
+        pagingSource?.invalidate()
     }
 
     fun getTransactionsPaged(): Flow<PagingData<TransactionLocalModel>> {

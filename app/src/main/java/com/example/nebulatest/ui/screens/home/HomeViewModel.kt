@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.map
+import com.example.nebulatest.core.TimeProvider
 import com.example.nebulatest.features.balance.data.BalanceLocalDataSource
 import com.example.nebulatest.features.exchange.rate.domain.GetExchangeRateUseCase
 import com.example.nebulatest.features.transaction.data.local.TransactionLocalRepository
@@ -38,7 +39,8 @@ sealed class HomeEvents {
 class HomeViewModel(
     private val getExchangeRateUseCase: GetExchangeRateUseCase,
     private val transactionLocalRepository: TransactionLocalRepository,
-    private val balanceLocalDataSource: BalanceLocalDataSource
+    private val balanceLocalDataSource: BalanceLocalDataSource,
+    private val timeProvider: TimeProvider
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(HomeState())
     val uiState = _uiState.asStateFlow()
@@ -61,17 +63,19 @@ class HomeViewModel(
     }
 
     private fun setTransactions() {
-        val transactionsFlow =
-            transactionLocalRepository.getTransactionsPaged().cachedIn(viewModelScope)
-                .map { it.map { transactions -> transactions.toTransactionPresentationModel() } }
+        val transactionsFlow = transactionLocalRepository.getTransactionsPaged()
+            .cachedIn(viewModelScope)
+            .map { it.map { transactions -> transactions.toTransactionPresentationModel() } }
         _uiState.update { it.copy(transactions = transactionsFlow) }
     }
 
     fun addIncome(incomeText: String) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             val income = incomeText.toDoubleOrNull()
             if (income != null) {
-                transactionLocalRepository.addIncome(IncomeModel(income))
+                transactionLocalRepository.addIncome(
+                    IncomeModel(income, timeProvider.getCurrentTimeMillis())
+                )
                 balanceLocalDataSource.updateBalance(income)
             } else {
                 _events.send(HomeEvents.ShowErrorSnackbar)
@@ -80,7 +84,7 @@ class HomeViewModel(
     }
 
     private fun setExchangeRate() {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             val result = getExchangeRateUseCase.invoke()
             if (result.isSuccess) {
                 _uiState.update { uiState -> uiState.copy(exchangeRate = result.getOrNull()) }

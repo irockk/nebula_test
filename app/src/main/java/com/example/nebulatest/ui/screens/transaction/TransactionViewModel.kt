@@ -2,11 +2,11 @@ package com.example.nebulatest.ui.screens.transaction
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.nebulatest.core.TimeProvider
 import com.example.nebulatest.features.balance.data.BalanceLocalDataSource
 import com.example.nebulatest.features.transaction.data.local.TransactionLocalRepository
 import com.example.nebulatest.features.transaction.model.ExpanseModel
 import com.example.nebulatest.features.transaction.model.TransactionCategory
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -26,7 +26,8 @@ sealed class TransactionEvents {
 @Factory
 class TransactionViewModel(
     private val transactionLocalRepository: TransactionLocalRepository,
-    private val balanceLocalDataSource: BalanceLocalDataSource
+    private val balanceLocalDataSource: BalanceLocalDataSource,
+    private val timeProvider: TimeProvider
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(TransactionState())
@@ -36,13 +37,14 @@ class TransactionViewModel(
     val events = _events.receiveAsFlow()
 
     fun addExpanse(amountText: String) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             val amount = amountText.toDoubleOrNull()
             if (amount != null) {
                 transactionLocalRepository.addExpense(
                     ExpanseModel(
                         amount,
-                        _uiState.value.selectedCategory
+                        _uiState.value.selectedCategory,
+                        timeProvider.getCurrentTimeMillis()
                     )
                 )
                 balanceLocalDataSource.updateBalance(-amount)
