@@ -1,6 +1,6 @@
 package com.example.nebulatest.features.exchange.rate.data.local
 
-import com.example.nebulatest.features.exchange.rate.model.local.ExchangeRateEntity
+import com.example.nebulatest.features.exchange.rate.data.local.model.ExchangeRateEntity
 import org.koin.core.annotation.Single
 
 @Single

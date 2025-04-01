@@ -5,12 +5,13 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.PagingSource
 import androidx.paging.map
-import com.example.nebulatest.features.transaction.model.ExpanseModel
-import com.example.nebulatest.features.transaction.model.IncomeModel
-import com.example.nebulatest.features.transaction.model.local.TransactionEntity
-import com.example.nebulatest.features.transaction.model.local.TransactionLocalModel
-import com.example.nebulatest.features.transaction.model.local.toTransactionLocalModel
-import com.example.nebulatest.features.transaction.model.toTransactionEntity
+import com.example.nebulatest.features.transaction.domain.model.ExpanseModel
+import com.example.nebulatest.features.transaction.domain.model.IncomeModel
+import com.example.nebulatest.features.transaction.domain.model.toTransactionEntity
+import com.example.nebulatest.features.transaction.data.local.model.TransactionEntity
+import com.example.nebulatest.features.transaction.data.local.model.toDomain
+import com.example.nebulatest.features.transaction.data.local.model.toTransactionLocalModel
+import com.example.nebulatest.features.transaction.domain.model.TransactionDomainModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
@@ -32,7 +33,7 @@ class TransactionLocalRepository(private val transactionDao: TransactionDao) {
         pagingSource?.invalidate()
     }
 
-    fun getTransactionsPaged(): Flow<PagingData<TransactionLocalModel>> {
+    fun getTransactionsPaged(): Flow<PagingData<TransactionDomainModel>> {
         return Pager(
             config = PagingConfig(
                 pageSize = 20,
@@ -40,7 +41,7 @@ class TransactionLocalRepository(private val transactionDao: TransactionDao) {
             ),
             pagingSourceFactory = { transactionDao.getTransactionsPaged() }
         ).flow.map { pagingData ->
-            pagingData.map { it.toTransactionLocalModel() }
+            pagingData.map { it.toTransactionLocalModel().toDomain() }
         }.flowOn(Dispatchers.IO)
     }
 }

@@ -5,11 +5,11 @@ import androidx.datastore.preferences.core.doublePreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.map
-import org.koin.core.annotation.Factory
+import org.koin.core.annotation.Singleton
 
 private val Context.dataStore by preferencesDataStore("balance")
 
-@Factory
+@Singleton
 class BalanceLocalDataSource(context: Context) {
 
     companion object {
@@ -18,7 +18,7 @@ class BalanceLocalDataSource(context: Context) {
 
     private val dataStore = context.dataStore
 
-    fun getBalance() = dataStore.data.map { preferences -> preferences[BALANCE_KEY] ?: 0.0 }
+    fun observeBalance() = dataStore.data.map { preferences -> preferences[BALANCE_KEY] ?: 0.0 }
 
     suspend fun updateBalance(newTransactionAmount: Double) {
         dataStore.edit { preferences ->
