@@ -4,7 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.nebulatest.features.exchange.rate.model.local.ExchangeRateEntity
+import com.example.nebulatest.features.exchange.rate.data.local.model.ExchangeRateEntity
 
 @Dao
 interface ExchangeRateDao {
