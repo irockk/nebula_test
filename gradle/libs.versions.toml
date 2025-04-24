@@ -7,6 +7,8 @@ mockitoVersion = "5.15.2"
 mockitoInlineVersion = "5.2.0"
 mockitoKotlinVersion = "5.4.0"
 turbineVersion = "1.0.0"
+robolectricVersion = "4.9"
+testingVersion = "2.1.0"
 
 kotlin = "2.0.0"
 coreKtx = "1.15.0"
@@ -32,6 +34,7 @@ roomVersion = "2.6.1"
 pagingVersion = "3.3.6"
 coreKtxVersion = "1.6.1"
 testng = "6.9.6"
+runner = "1.6.2"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -40,7 +43,8 @@ androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "j
 junit-jupiter-api = { group = "org.junit.jupiter", name = "junit-jupiter-api", version.ref = "junit" }
 junit-jupiter-engine = { group = "org.junit.jupiter", name = "junit-jupiter-engine", version.ref = "junit" }
 junit-platform = { group = "org.junit.platform", name = "junit-platform-launcher" }
-turbineDependency-turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbineVersion" }
+turbine-turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbineVersion" }
+robolectric-robolectric = { group = "org.robolectric", name = "robolectric", version.ref = "robolectricVersion" }
 
 mockitoDependency-core = { group = "org.mockito", name = "mockito-core", version.ref = "mockitoVersion" }
 mockitoDependency-kotlin = { group = "org.mockito.kotlin", name = "mockito-kotlin", version.ref = "mockitoKotlinVersion" }
@@ -48,8 +52,8 @@ mockitoDependency-inline = { group = "org.mockito", name = "mockito-inline", ver
 
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
-kotlinDependencies-coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutinesVersion" }
-kotlinDependencies-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutinesVersion" }
+kotlin-coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutinesVersion" }
+kotlin-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutinesVersion" }
 
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
@@ -61,7 +65,7 @@ androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-toolin
 androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 
-datastoreDependencies-datastore = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastoreVersion" }
+datastore-datastore = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastoreVersion" }
 
 koin-core = { group = "io.insert-koin", name = "koin-core", version.ref = "koinVersion" }
 koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koinVersion" }
@@ -69,19 +73,22 @@ koin-compose = { group = "io.insert-koin", name = "koin-androidx-compose", versi
 koin-annotations = { group = "io.insert-koin", name = "koin-annotations", version.ref = "koinAnnotationVersion" }
 koin-compiler = { group = "io.insert-koin", name = "koin-ksp-compiler", version.ref = "koinAnnotationVersion" }
 
-retrofitDependencies-retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofitVersion" }
-retrofitDependencies-converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofitVersion" }
+retrofit-retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofitVersion" }
+retrofit-converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofitVersion" }
 gsonDependencies-gson = {group = "com.google.code.gson", name = "gson", version.ref = "gsonVersion"}
 
-roomDependencies-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "roomVersion" }
-roomDependencies-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "roomVersion"}
-roomDependencies-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "roomVersion"}
-roomDependencies-paging = { group = "androidx.room", name = "room-paging", version.ref = "roomVersion"}
+room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "roomVersion" }
+room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "roomVersion" }
+room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "roomVersion" }
+room-paging = { group = "androidx.room", name = "room-paging", version.ref = "roomVersion" }
+room-testing = { group = "androidx.room", name = "room-testing", version.ref = "roomVersion" }
 
-pagingDependencies-compose = { group = "androidx.paging", name = "paging-compose", version.ref = "pagingVersion" }
-pagingDependencies-runtime = { group = "androidx.paging", name = "paging-runtime", version.ref = "pagingVersion" }
+paging-compose = { group = "androidx.paging", name = "paging-compose", version.ref = "pagingVersion" }
+paging-runtime = { group = "androidx.paging", name = "paging-runtime", version.ref = "pagingVersion" }
 core-ktx = { group = "androidx.test", name = "core-ktx", version.ref = "coreKtxVersion" }
 testng = { group = "org.testng", name = "testng", version.ref = "testng" }
+androidx-runner = { group = "androidx.test", name = "runner", version.ref = "runner" }
+core-testing = { group = "androidx.arch.core", name = "core-testing", version.ref = "testingVersion" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -89,3 +96,4 @@ kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 room = { id = "androidx.room", version.ref = "roomVersion" }
+
