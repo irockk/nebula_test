@@ -48,9 +48,7 @@ android {
 
     android {
         testOptions {
-            unitTests.all {
-                it.useJUnitPlatform()
-            }
+            unitTests.all { it.useJUnitPlatform() }
         }
     }
 }
@@ -59,7 +57,7 @@ dependencies {
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.kotlinDependencies.coroutines)
+    implementation(libs.kotlin.coroutines)
 
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
@@ -69,33 +67,37 @@ dependencies {
     implementation(libs.androidx.navigation)
     implementation(libs.androidx.material3)
 
-    implementation(libs.datastoreDependencies.datastore)
+    implementation(libs.datastore.datastore)
 
     implementation(libs.koin.core)
     implementation(libs.koin.annotations)
     implementation(libs.koin.android)
     implementation(libs.koin.compose)
     implementation(libs.core.ktx)
+    implementation(libs.androidx.runner)
+    androidTestImplementation(libs.androidx.runner)
     testImplementation(libs.testng)
     ksp(libs.koin.compiler)
 
-    implementation(libs.retrofitDependencies.retrofit)
-    implementation(libs.retrofitDependencies.converter.gson)
+    implementation(libs.retrofit.retrofit)
+    implementation(libs.retrofit.converter.gson)
     implementation(libs.gsonDependencies.gson)
 
-    implementation(libs.roomDependencies.runtime)
-    implementation(libs.roomDependencies.ktx)
-    ksp(libs.roomDependencies.compiler)
-    implementation(libs.roomDependencies.paging)
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
+    ksp(libs.room.compiler)
+    implementation(libs.room.paging)
+    androidTestImplementation(libs.room.testing)
 
-    implementation(libs.pagingDependencies.runtime)
-    implementation(libs.pagingDependencies.compose)
+    implementation(libs.paging.runtime)
+    implementation(libs.paging.compose)
 
     androidTestImplementation(libs.androidx.junit)
     testRuntimeOnly(libs.junit.platform)
     testImplementation(libs.junit.jupiter.api)
     testImplementation(libs.junit.jupiter.engine)
-    testImplementation(libs.turbineDependency.turbine)
+    testImplementation(libs.turbine.turbine)
+    testImplementation(libs.robolectric.robolectric)
 
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
@@ -104,6 +106,8 @@ dependencies {
 
     testImplementation(libs.mockitoDependency.core)
     testImplementation(libs.mockitoDependency.kotlin)
-    testImplementation(libs.kotlinDependencies.coroutines.test)
+    testImplementation(libs.kotlin.coroutines.test)
     testImplementation(libs.mockitoDependency.inline)
+    testImplementation(libs.core.testing)
+    androidTestImplementation(libs.kotlin.coroutines.test)
 }
