@@ -3,11 +3,14 @@ package com.example.nebulatest.features.transaction.domain.model
 import androidx.room.TypeConverter
 
 enum class TransactionCategory {
-    GROCERIES,
     TAXI,
-    ELECTRONICS,
+    GROCERIES,
     RESTAURANT,
-    OTHER
+    ENTERTAINMENT,
+    UTILITIES,
+    TRAVEL,
+    HEALTH,
+    EDUCATION
 }
 
 class CategoryConverter {

@@ -1,15 +1,28 @@
 <resources>
     <string name="app_name">nebula test</string>
-    <string name="home_add_transaction_button_text">Add transaction</string>
-    <string name="income_text">INCOME</string>
-    <string name="income_dialog_ok">Ok</string>
+    <string name="home_add_transaction_button_text">Add Expanse</string>
+    <string name="income_dialog_ok">OK</string>
     <string name="income_dialog_cancel">Cancel</string>
     <string name="income_dialog_title">Add Income</string>
     <string name="income_dialog_currency">BTC</string>
-    <string name="home_add_income_button_text">Add income</string>
+    <string name="home_add_income_button_text">Add Income</string>
     <string name="transaction_goback_button_text">goBack</string>
     <string name="transition_add_transition_button_text">Add transition</string>
     <string name="btc_to_usd_exchange_rate_text">1 BTC = %1$s USD</string>
-    <string name="balance_title">Balance:</string>
+    <string name="balance_title">Balance</string>
     <string name="default_error_snackbar_text">Something went wrong</string>
+
+    <string name="category_taxi">Taxi</string>
+    <string name="category_income">Income</string>
+    <string name="category_groceries">Groceries</string>
+    <string name="category_restaurant">Restaurant</string>
+    <string name="category_entertainment">Entertainment</string>
+    <string name="category_utilities">Utilities</string>
+    <string name="category_travel">Travel</string>
+    <string name="category_education">Education</string>
+    <string name="category_health">Health</string>
+    <string name="home_transactions">Transactions</string>
+    <string name="amount_in_btc">%1$s BTC</string>
+    <string name="transaction_title">New Transaction</string>
+    <string name="transaction_amount">Amount:</string>
 </resources>
