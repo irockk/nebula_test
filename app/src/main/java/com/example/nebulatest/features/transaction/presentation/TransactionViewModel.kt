@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.nebulatest.core.TimeProvider
 import com.example.nebulatest.features.balance.domain.BalanceUseCase
 import com.example.nebulatest.features.transaction.domain.TransactionUseCase
-import com.example.nebulatest.features.transaction.domain.model.ExpanseModel
+import com.example.nebulatest.features.transaction.domain.model.ExpenseModel
 import com.example.nebulatest.features.transaction.domain.model.TransactionCategory
 import com.example.nebulatest.features.transaction.presentation.model.TransactionCategoryPresentationModel
 import com.example.nebulatest.features.transaction.presentation.model.toDomain
@@ -45,7 +45,7 @@ class TransactionViewModel(
             val amount = amountText.toDoubleOrNull()
             if (amount != null) {
                 transactionUseCase.addExpense(
-                    ExpanseModel(
+                    ExpenseModel(
                         amount,
                         _uiState.value.selectedCategory.toDomain(),
                         timeProvider.getCurrentTimeMillis()

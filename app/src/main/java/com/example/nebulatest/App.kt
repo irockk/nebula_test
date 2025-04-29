@@ -1,6 +1,7 @@
 package com.example.nebulatest
 
 import android.app.Application
+import com.example.nebulatest.di.balanceDataStoreModule
 import com.example.nebulatest.di.exchangeRateDbModule
 import com.example.nebulatest.di.networkModule
 import com.example.nebulatest.di.transactionDbModule
@@ -20,7 +21,7 @@ class App : Application() {
         startKoin {
             androidLogger()
             androidContext(applicationContext)
-            modules(AppAnnotationModule().module + networkModule + exchangeRateDbModule + transactionDbModule)
+            modules(AppAnnotationModule().module + networkModule + exchangeRateDbModule + transactionDbModule + balanceDataStoreModule)
         }
     }
 }

@@ -75,7 +75,7 @@ class TransactionDaoTest {
             TransactionEntity(
                 3,
                 300.0,
-                TransactionCategory.OTHER,
+                TransactionCategory.GROCERIES,
                 TransactionType.INCOME,
                 timestamp = 3000L
             )

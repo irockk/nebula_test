@@ -111,4 +111,5 @@ dependencies {
     testImplementation(libs.mockitoDependency.inline)
     testImplementation(libs.core.testing)
     androidTestImplementation(libs.kotlin.coroutines.test)
+    testImplementation(kotlin("test"))
 }

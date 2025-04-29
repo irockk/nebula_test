@@ -3,11 +3,13 @@ package com.example.nebulatest.feature.transaction.presentation
 import app.cash.turbine.test
 import com.example.nebulatest.core.TimeProvider
 import com.example.nebulatest.features.balance.domain.BalanceUseCase
-import com.example.nebulatest.features.transaction.domain.model.ExpanseModel
-import com.example.nebulatest.features.transaction.domain.model.TransactionCategory
 import com.example.nebulatest.features.transaction.domain.TransactionUseCase
+import com.example.nebulatest.features.transaction.domain.model.ExpenseModel
+import com.example.nebulatest.features.transaction.domain.model.TransactionCategory
 import com.example.nebulatest.features.transaction.presentation.TransactionEvents
 import com.example.nebulatest.features.transaction.presentation.TransactionViewModel
+import com.example.nebulatest.features.transaction.presentation.model.toDomain
+import com.example.nebulatest.features.transaction.presentation.model.toPresentation
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
@@ -23,7 +25,6 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertNotNull
 import org.mockito.Mockito
 import org.mockito.Mockito.mock
-import org.mockito.MockitoAnnotations
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
 
@@ -41,8 +42,6 @@ class TransactionViewModelUnitTest {
 
     @BeforeEach
     fun setup() = runTest {
-        MockitoAnnotations.openMocks(this)
-
         Dispatchers.setMain(testDispatcher)
 
         whenever(timeProvider.getCurrentTimeMillis()).thenReturn(currentTime)
@@ -67,7 +66,7 @@ class TransactionViewModelUnitTest {
 
         assertNotNull(amount)
         verify(transactionUseCase).addExpense(
-            ExpanseModel(amount, viewModel.uiState.value.selectedCategory, currentTime)
+            ExpenseModel(amount, viewModel.uiState.value.selectedCategory.toDomain(), currentTime)
         )
         verify(balanceUseCase).updateBalance(-amount)
 
@@ -88,8 +87,9 @@ class TransactionViewModelUnitTest {
 
     @Test
     fun `set category test`() {
-        viewModel.selectCategory(TransactionCategory.TAXI)
-        assertEquals(viewModel.uiState.value.selectedCategory, TransactionCategory.TAXI)
+        val category = TransactionCategory.TAXI.toPresentation()
+        viewModel.selectCategory(category)
+        assertEquals(viewModel.uiState.value.selectedCategory, category)
 
         verifyNoMoreInteractions()
     }
