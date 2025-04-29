@@ -1,17 +1,17 @@
 package com.example.nebulatest.features.home.presentation
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,21 +22,20 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.sp
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.example.nebulatest.R
-import com.example.nebulatest.core.formatDouble
+import com.example.nebulatest.core.formatDoubleToString
 import com.example.nebulatest.core.formatLongToDate
-import com.example.nebulatest.core.formatLongToTime
-import com.example.nebulatest.features.transaction.domain.model.TransactionType
-import com.example.nebulatest.features.transaction.presentation.model.TransactionPresentationModel
+import com.example.nebulatest.features.transaction.presentation.components.TransactionItem
 import com.example.nebulatest.ui.components.IncomeDialog
 import com.example.nebulatest.ui.components.TransactionTextButton
+import com.example.nebulatest.ui.theme.BackgroundLight
+import com.example.nebulatest.ui.theme.BackgroundWhite
 import com.example.nebulatest.ui.theme.Dimens
 import com.example.nebulatest.ui.theme.NebulaTestTheme
+import com.example.nebulatest.ui.theme.Typography
 
 @Composable
 fun HomeScreen(
@@ -55,59 +54,54 @@ fun HomeScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(Dimens.screenPadding),
-        horizontalAlignment = Alignment.CenterHorizontally
+            .padding(Dimens.screenPadding)
     ) {
-
-        uiState.exchangeRate?.let { exchangeRate ->
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.End
-            ) {
-                Text(
-                    text = stringResource(
-                        R.string.btc_to_usd_exchange_rate_text,
-                        exchangeRate
-                    )
-                )
-            }
-        }
-
-        Spacer(Modifier.weight(1f))
-
         Text(
             text = stringResource(R.string.balance_title),
-            fontSize = 32.sp
+            style = Typography.titleMedium
         )
 
         Text(
-            text = formatDouble(uiState.balance),
-            fontSize = 52.sp
+            text = stringResource(
+                R.string.amount_in_btc,
+                formatDoubleToString(uiState.balance)
+            ),
+            style = Typography.titleLarge
         )
+
+        uiState.exchangeRate?.let { exchangeRate ->
+            Text(
+                text = stringResource(R.string.btc_to_usd_exchange_rate_text, exchangeRate),
+                style = Typography.labelSmall
+            )
+        }
+
+        Spacer(Modifier.height(Dimens.paddingBig))
 
         Row(
             verticalAlignment = Alignment.CenterVertically
         ) {
             TransactionTextButton(
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(Dimens.paddingMedium),
+                modifier = Modifier.weight(1f),
                 text = stringResource(R.string.home_add_income_button_text),
                 onClick = { isIncomeDialogVisible = true }
             )
 
+            Spacer(Modifier.width(Dimens.paddingMedium))
+
             TransactionTextButton(
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(Dimens.paddingMedium),
+                modifier = Modifier.weight(1f),
                 text = stringResource(R.string.home_add_transaction_button_text),
                 onClick = goToTransaction
             )
         }
 
+        Spacer(Modifier.height(Dimens.paddingBig))
+
         Text(
             modifier = Modifier.padding(vertical = Dimens.paddingSmall),
-            text = "Transactions:"
+            text = stringResource(R.string.home_transactions),
+            style = Typography.titleMedium
         )
 
         val transactions = uiState.transactions.collectAsLazyPagingItems()
@@ -116,60 +110,41 @@ fun HomeScreen(
             formatLongToDate(transaction.timestamp)
         }
 
-        LazyColumn(modifier = Modifier.weight(2f)) {
+        LazyColumn(
+            modifier = Modifier
+                .weight(2f)
+                .clip(RoundedCornerShape(Dimens.cornerRadius))
+                .background(BackgroundWhite)
+                .padding(Dimens.paddingMedium)
+        ) {
             groupedTransactions.forEach { (date, transactionsForDate) ->
                 item {
                     Text(
                         modifier = Modifier.padding(top = Dimens.paddingExtraSmall),
-                        text = date
+                        text = date,
+                        style = Typography.bodyMedium
                     )
                 }
 
-                items(transactionsForDate) { transaction ->
+                itemsIndexed(transactionsForDate) { index, transaction ->
                     TransactionItem(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(vertical = Dimens.paddingExtraSmall),
                         transaction = transaction
                     )
+
+                    if (index < transactionsForDate.size - 1) {
+                        Box(
+                            modifier = Modifier
+                                .height(Dimens.borderWidth)
+                                .fillMaxWidth()
+                                .background(BackgroundLight)
+                        )
+                    }
                 }
             }
         }
-    }
-}
-
-@Composable
-private fun TransactionItem(
-    modifier: Modifier = Modifier,
-    transaction: TransactionPresentationModel
-) {
-    Row(
-        modifier = modifier
-            .border(Dimens.borderWidth, Color.DarkGray, RoundedCornerShape(Dimens.cornerRadius))
-            .clip(RoundedCornerShape(Dimens.cornerRadius))
-            .background(
-                (if (transaction.transactionType == TransactionType.INCOME) Color.Green else Color.Red).copy(
-                    0.1f
-                )
-            )
-            .padding(Dimens.paddingMedium)
-    ) {
-        Text(
-            text = formatLongToTime(transaction.timestamp),
-            color = Color.Gray,
-            fontSize = 12.sp,
-        )
-
-        Spacer(Modifier.width(Dimens.paddingMedium))
-
-        Text(
-            text = transaction.category?.name ?: stringResource(R.string.income_text),
-            fontSize = 16.sp
-        )
-
-        Spacer(Modifier.weight(1f))
-
-        Text(text = formatDouble(transaction.amount))
     }
 }
 
@@ -178,9 +153,7 @@ private fun TransactionItem(
 fun HomeScreenPreview() {
     NebulaTestTheme {
         HomeScreen(
-            uiState = HomeState(
-                balance = 100.0, exchangeRate = 840000.24
-            ),
+            uiState = HomeState(balance = 100.0, exchangeRate = 840000.24),
             goToTransaction = {},
             addIncome = {}
         )

@@ -1,13 +1,12 @@
 package com.example.nebulatest.features.transaction.presentation.model
 
-import com.example.nebulatest.features.transaction.domain.model.TransactionCategory
-import com.example.nebulatest.features.transaction.domain.model.TransactionType
 import com.example.nebulatest.features.transaction.domain.model.TransactionDomainModel
+import com.example.nebulatest.features.transaction.domain.model.TransactionType
 
 data class TransactionPresentationModel(
     val id: Int,
     val amount: Double,
-    val category: TransactionCategory?,
+    val category: TransactionCategoryPresentationModel,
     val transactionType: TransactionType,
     val timestamp: Long = System.currentTimeMillis()
 )
@@ -15,7 +14,7 @@ data class TransactionPresentationModel(
 fun TransactionDomainModel.toPresentation() = TransactionPresentationModel(
     id = id,
     amount = amount,
-    category = category,
+    category = category.toPresentation(),
     transactionType = transactionType,
     timestamp = timestamp
 )
