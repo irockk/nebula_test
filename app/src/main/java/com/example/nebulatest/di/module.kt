@@ -1,6 +1,8 @@
 package com.example.nebulatest.di
 
 import android.app.Application
+import android.content.Context
+import androidx.datastore.preferences.preferencesDataStore
 import androidx.room.Room
 import com.example.nebulatest.core.Constants.BASE_EXCHANGE_RATE_URL
 import com.example.nebulatest.features.exchange.rate.data.local.ExchangeRateDao
@@ -50,4 +52,9 @@ val transactionDbModule = module {
         transactionDataBase.transactionDao()
     single { provideDataBase(get()) }
     single { provideDao(get()) }
+}
+
+private val Context.dataStore by preferencesDataStore("balance")
+val balanceDataStoreModule = module {
+    single { get<Context>().dataStore }
 }

@@ -5,7 +5,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.PagingSource
 import androidx.paging.map
-import com.example.nebulatest.features.transaction.domain.model.ExpanseModel
+import com.example.nebulatest.features.transaction.domain.model.ExpenseModel
 import com.example.nebulatest.features.transaction.domain.model.IncomeModel
 import com.example.nebulatest.features.transaction.domain.model.toTransactionEntity
 import com.example.nebulatest.features.transaction.data.local.model.TransactionEntity
@@ -28,7 +28,7 @@ class TransactionLocalRepository(private val transactionDao: TransactionDao) {
         pagingSource?.invalidate()
     }
 
-    suspend fun addExpense(expanse: ExpanseModel) {
+    suspend fun addExpense(expanse: ExpenseModel) {
         transactionDao.insertTransaction(expanse.toTransactionEntity())
         pagingSource?.invalidate()
     }
