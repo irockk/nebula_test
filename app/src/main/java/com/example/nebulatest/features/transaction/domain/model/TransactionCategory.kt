@@ -9,7 +9,8 @@ enum class TransactionCategory {
     ENTERTAINMENT,
     UTILITIES,
     TRAVEL,
-    HEALTH
+    HEALTH,
+    EDUCATION
 }
 
 class CategoryConverter {

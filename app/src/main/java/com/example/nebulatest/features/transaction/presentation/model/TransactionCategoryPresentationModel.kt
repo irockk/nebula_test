@@ -9,11 +9,13 @@ import androidx.compose.material.icons.filled.FlashOn
 import androidx.compose.material.icons.filled.Flight
 import androidx.compose.material.icons.filled.Movie
 import androidx.compose.material.icons.filled.Restaurant
+import androidx.compose.material.icons.filled.School
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.example.nebulatest.R
 import com.example.nebulatest.features.transaction.domain.model.TransactionCategory
+import com.example.nebulatest.ui.theme.EducationBlue
 import com.example.nebulatest.ui.theme.EntertainmentPurple
 import com.example.nebulatest.ui.theme.GroceriesGreen
 import com.example.nebulatest.ui.theme.HealthPink
@@ -78,6 +80,13 @@ fun TransactionCategory?.toPresentation(): TransactionCategoryPresentationModel 
         R.string.category_health,
         Icons.Filled.Favorite,
         HealthPink
+    )
+
+    TransactionCategory.EDUCATION -> TransactionCategoryPresentationModel(
+        this.name,
+        R.string.category_education,
+        Icons.Filled.School,
+        EducationBlue
     )
 
     else -> TransactionCategoryPresentationModel(
