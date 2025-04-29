@@ -22,4 +22,6 @@
     <string name="category_health">Health</string>
     <string name="home_transactions">Transactions</string>
     <string name="amount_in_btc">%1$s BTC</string>
+    <string name="transaction_title">New Transaction</string>
+    <string name="transaction_amount">Amount:</string>
 </resources>

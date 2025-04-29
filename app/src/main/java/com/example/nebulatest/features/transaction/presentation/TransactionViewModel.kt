@@ -4,9 +4,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.nebulatest.core.TimeProvider
 import com.example.nebulatest.features.balance.domain.BalanceUseCase
+import com.example.nebulatest.features.transaction.domain.TransactionUseCase
 import com.example.nebulatest.features.transaction.domain.model.ExpanseModel
 import com.example.nebulatest.features.transaction.domain.model.TransactionCategory
-import com.example.nebulatest.features.transaction.domain.TransactionUseCase
+import com.example.nebulatest.features.transaction.presentation.model.TransactionCategoryPresentationModel
+import com.example.nebulatest.features.transaction.presentation.model.toDomain
+import com.example.nebulatest.features.transaction.presentation.model.toPresentation
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -16,7 +19,8 @@ import kotlinx.coroutines.launch
 import org.koin.core.annotation.Factory
 
 data class TransactionState(
-    val selectedCategory: TransactionCategory = TransactionCategory.entries.first()
+    val selectedCategory: TransactionCategoryPresentationModel = TransactionCategory.entries.first()
+        .toPresentation()
 )
 
 sealed class TransactionEvents {
@@ -25,7 +29,8 @@ sealed class TransactionEvents {
 
 @Factory
 class TransactionViewModel(
-    private val transactionUseCase: TransactionUseCase, private val balanceUseCase: BalanceUseCase,
+    private val transactionUseCase: TransactionUseCase,
+    private val balanceUseCase: BalanceUseCase,
     private val timeProvider: TimeProvider
 ) : ViewModel() {
 
@@ -42,7 +47,7 @@ class TransactionViewModel(
                 transactionUseCase.addExpense(
                     ExpanseModel(
                         amount,
-                        _uiState.value.selectedCategory,
+                        _uiState.value.selectedCategory.toDomain(),
                         timeProvider.getCurrentTimeMillis()
                     )
                 )
@@ -53,7 +58,7 @@ class TransactionViewModel(
         }
     }
 
-    fun selectCategory(category: TransactionCategory) {
+    fun selectCategory(category: TransactionCategoryPresentationModel) {
         _uiState.update { uiState ->
             uiState.copy(selectedCategory = category)
         }

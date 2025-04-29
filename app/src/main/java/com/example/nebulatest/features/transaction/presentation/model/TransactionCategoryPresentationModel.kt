@@ -87,3 +87,11 @@ fun TransactionCategory?.toPresentation(): TransactionCategoryPresentationModel 
         SalaryBlue
     )
 }
+
+fun TransactionCategoryPresentationModel.toDomain(): TransactionCategory {
+    return TransactionCategory.valueOf(name ?: "")
+}
+
+fun getCategories(): List<TransactionCategoryPresentationModel> {
+    return TransactionCategory.entries.map { it.toPresentation() }
+}
